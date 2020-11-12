@@ -7,8 +7,6 @@ public class PracticeCh6 {
 
     public static void main (String[] args) throws FileNotFoundException {
 
-        Scanner input = new Scanner(new File("C:\temp\new files\test.dat"));
-
         String[] input = {
                 "src/evenNumbers.txt",
                 "src/flipLines",
@@ -18,9 +16,15 @@ public class PracticeCh6 {
         File file = new File(input[1]);
         Scanner text = new Scanner(file);
 
-//        evenNumbers(text);
+        //Uncomment below to test each method
+        evenNumbers(text); //use input [0]
 //        negativeSum(text);
-        flipLines(text);
+//        flipLines(text);
+//        countCoins(text);
+//        collapseSpaces(text);
+//        readEntireFile(text);
+//        flipLines(text);
+//        doubleSpace(text);
 
     }
 
