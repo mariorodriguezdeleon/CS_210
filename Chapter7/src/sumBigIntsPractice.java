@@ -93,7 +93,7 @@ public class sumBigIntsPractice {
                     sum[k] = temp;
                     carry = 0;
                 }
-                else
+            else
                 {
                     sum[k] = temp % 10;
                     carry = temp / 10;
