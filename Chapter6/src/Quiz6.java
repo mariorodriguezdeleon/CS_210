@@ -25,6 +25,7 @@ public class Quiz6 {
         String cleanedString = "";
 
         while (text.hasNext()) {
+
             String line = text.nextLine();
             Scanner input = new Scanner(line);
 

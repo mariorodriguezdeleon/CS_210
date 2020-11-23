@@ -48,9 +48,11 @@ public class sumBigIntsPractice {
             return number;
         }
 
-        public static int[] addNumbers(
-                int[] firstNumber, int[] secondNumber)
-        {
+        public static int[] addNumbers(int[] firstNumber, int[] secondNumber) {
+
+            System.out.println(Arrays.toString(firstNumber));
+            System.out.println(Arrays.toString(secondNumber));
+
             int size = firstNumber.length;
 
             if(secondNumber.length > size)
