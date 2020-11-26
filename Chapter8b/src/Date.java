@@ -25,37 +25,26 @@ public class Date {
     private int year;
     private int month;
     private int day;
+    private String monthName;
+    private int daysInMonth;
 
-    // Default constructor for no given parameters
+    // Constructors ==============================================
+
+    // Default constructor sets the date to January 1, 1970
     public Date() {
         setYear(1970);
         setMonth(1);
         setDay(1);
     }
 
-    // Constructs Date object with the given parameters
+    // Constructs Date object with the given Year/Month/Day parameters
      public Date(int year, int month, int day) {
          setYear(year);
          setMonth(month);
          setDay(day);
     }
 
-    public void addDays(int days) {
-        //Moves this Date object forward in time by number of days.  Make sure to adjust date fields appropriately.
-    }
-
-    public void addWeeks(int weeks) {
-        //Moves this Date object forward in time by the given number of seven day weeks. Make sure to adjust date fields appropriately.
-    }
-
-    public static int daysTo(Date date1, Date date2) {
-        //Returns the number of days that this Date object must be adjusted to make it equal to the given other Date.
-        return 2;
-    }
-
-    public int daysTo(Date other) {
-        return 2;
-    }
+    // Accessors =================================================
 
     public int getDay() {
         //Returns the date value of this date; example: for the date 2006/07/22, returns 22;
@@ -72,6 +61,8 @@ public class Date {
         return this.year;
     }
 
+    // Mutators ==================================================
+
     public void setYear(int year) {
         this.year = year;
     }
@@ -82,6 +73,34 @@ public class Date {
 
     public void setDay(int day) {
         this.year = day;
+    }
+
+    public void addDays(int days) {
+        //Moves this Date object forward in time by number of days.  Make sure to adjust date fields appropriately.
+    }
+
+    public void addWeeks(int weeks) {
+        //Moves this Date object forward in time by the given number of seven day weeks. Make sure to adjust date fields appropriately.
+    }
+
+    public void monthOfYear (int calMonth) {
+
+        String months [] = {"January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"};
+
+        this.monthName = [calMonth];
+
+    }
+
+    // Utilities =================================================
+
+    public static int daysTo(Date date1, Date date2) {
+        //Returns the number of days that this Date object must be adjusted to make it equal to the given other Date.
+        return 2;
+    }
+
+    public int daysTo(Date other) {
+        return 2;
     }
 
     public boolean isLeapYear() {
