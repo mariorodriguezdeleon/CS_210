@@ -26,9 +26,7 @@ public class Date {
     private int month;
     private int day;
     private int daysInMonth;
-    private boolean isLeap;
     private String monthName;
-
 
     // Constructors ==============================================
 
@@ -207,7 +205,7 @@ public class Date {
 
         int numOfDays = daysInMonth(month);
 
-        if (isLeap && month == 2) {
+        if (isLeapYear(this.year) && month == 2) {
             numOfDays += 1;
         }
 
