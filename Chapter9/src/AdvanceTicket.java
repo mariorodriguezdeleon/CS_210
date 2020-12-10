@@ -53,10 +53,11 @@ public class AdvanceTicket extends Ticket {
 
     protected int getNumber() {
 
-        String str = super.toString().substring(8, 9);
-        int number = Integer.parseInt(str);
+        String[] str0 = super.toString().split(","); // after -> ["Number: number", "Prices: price"]
+        String[] str1 = str0[0].split(" "); // after -> ["Number:", number]
 
-        return number;
+        return Integer.parseInt(str1[1]);
+
     }
 
 }

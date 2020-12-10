@@ -39,7 +39,9 @@ public class TicketTester {
         }
 
         AdvanceTicket last = new AdvanceTicket(99, 1); // 99 already used?
+        AdvanceTicket test = new AdvanceTicket(101, 1);
         System.out.println(last); // with above, Number: 100, Price: 40.0
         if (last.getNumber() == 100) System.out.println("number checked out OK this time");
+        if (test.getNumber() == 101) System.out.println("number checked out OK this time too!");
     }
 }
