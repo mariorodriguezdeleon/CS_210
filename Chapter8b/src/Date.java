@@ -1,7 +1,7 @@
 /* Mario Rodriguez, CS 210
  * November 27, 2020
  * Bellevue College
- * Coding Assignment 8b - Date Class
+ * Coding Assignment 8b - Date Class (from 1582 - 3000)
  * Requirements:
  * 1.  Do not use any imports from the JAVA API, nor any package statements, nor System.
  * 2.  I also insist the fields of your Class must remain private access.
@@ -25,92 +25,252 @@ public class Date {
     private int year;
     private int month;
     private int day;
-    private String monthName;
     private int daysInMonth;
+    private String monthName;
 
     // Constructors ==============================================
 
     // Default constructor sets the date to January 1, 1970
     public Date() {
-        setYear(1970);
-        setMonth(1);
-        setDay(1);
+
+        this.setYear(1970);
+        this.setMonth(1);
+        this.setDay(1);
+        this.setupDateData();
+
     }
 
-    // Constructs Date object with the given Year/Month/Day parameters
-     public Date(int year, int month, int day) {
-         setYear(year);
-         setMonth(month);
-         setDay(day);
-    }
+    // Constructs Date object with the given Year/Month/Day parameters. Throws IllegalArgumentException
+     public Date(int year, int month, int day) throws IllegalArgumentException {
+
+        boolean dataValidates = validateData (year, month, day);
+
+         if (dataValidates) {
+             this.setYear(year);
+             this.setMonth(month);
+             this.setDay(day);
+             this.setupDateData();
+         } else {
+             throw new IllegalArgumentException();
+         }
+
+     }
 
     // Accessors =================================================
 
     public int getDay() {
-        //Returns the date value of this date; example: for the date 2006/07/22, returns 22;
         return this.day;
     }
 
     public int getMonth() {
-        //Returns the month value of this date; example: for the date 2006/07/22, returns 7;
         return this.month;
     }
 
     public int getYear() {
-        //Returns the year value of this date; example: for the date 2006/07/22, returns 2006;
         return this.year;
+    }
+
+    public boolean isLeapYear() {
+        return this.isLeapYear(this.year);
     }
 
     // Mutators ==================================================
 
-    public void setYear(int year) {
-        this.year = year;
+    public void setYear(int year) throws IllegalArgumentException {
+
+        if (validateData(year, 1, 1)) {
+            this.year = year;
+        } else {
+            throw new IllegalArgumentException();
+        }
+
     }
 
-    public void setMonth(int month) {
-        this.year = month;
+    public void setMonth(int month) throws IllegalArgumentException {
+
+        if (validateData(1582, month, 1)) {
+            this.month = month;
+            this.setMonthName(month);
+            this.setDaysInMonth(month);
+        } else {
+            throw new IllegalArgumentException();
+        }
+
     }
 
-    public void setDay(int day) {
-        this.year = day;
+    public void setDay(int day) throws IllegalArgumentException {
+
+        if (validateData(1582, 1, day)) {
+            this.day = day;
+        } else {
+            throw new IllegalArgumentException();
+        }
+
     }
 
     public void addDays(int days) {
-        //Moves this Date object forward in time by number of days.  Make sure to adjust date fields appropriately.
+
+        int newMonth = this.month;
+        int newYear = this.year;
+
+        if (days + this.day <= this.daysInMonth && days + this.day >= 1) { //within the month
+
+            this.setDay(this.day += days);
+
+        } else if (days + this.day > this.daysInMonth && days + countDays(this.month) <= daysInYear(this.year)) { //find month after this month but before year end
+
+            int totalNumOfDays = days + this.day;
+
+            while (totalNumOfDays > daysInMonth(newMonth)) {
+                totalNumOfDays -= daysInMonth(newMonth);
+                newMonth += 1;
+            }
+
+            this.setDay(totalNumOfDays);
+            this.setMonth(newMonth);
+
+        } else if (days + this.day < 0 && days + countDays(this.month) > 0) { //find month prior to this month within the year
+
+            int totalNumOfDays = Math.abs(days);
+
+            while (totalNumOfDays > daysInMonth(newMonth)) {
+                totalNumOfDays -= daysInMonth(newMonth);
+                newMonth -= 1;
+            }
+
+            this.setDay(totalNumOfDays);
+            this.setMonth(newMonth);
+
+        } else { //find the year, month and day
+
+            int totalNumOfDays = countDays(this.month) + days;
+
+            if (totalNumOfDays > daysInYear(this.year)) {
+                //find year after this year
+                int yearDays = daysInYear(newYear);
+
+                while (totalNumOfDays > yearDays) { //find year
+                    totalNumOfDays -= yearDays;
+                    newYear += 1;
+                }
+
+                newMonth = 1; //reset month to begin year
+
+                while (totalNumOfDays > daysInMonth(newMonth)) { //find month
+                    totalNumOfDays -= daysInMonth(newMonth);
+                    newMonth += 1;
+                }
+
+                this.setDay(totalNumOfDays); //leftovers become day
+                this.setMonth(newMonth);
+
+            } else {
+                //find year previous to this year
+
+                totalNumOfDays = Math.abs(days);
+
+                while (totalNumOfDays > daysInYear(newYear)) { //find previous year
+                    totalNumOfDays -= daysInYear(newYear);
+                    newYear -= 1;
+                }
+
+                newMonth = 1; //reset month to begin year
+
+                while (totalNumOfDays > daysInMonth(newMonth)) { //find month
+                    totalNumOfDays -= daysInMonth(newMonth);
+                    newMonth += 1;
+                }
+
+                this.setDay(totalNumOfDays); //leftovers become day
+                this.setMonth(newMonth);
+
+            }
+        }
     }
 
     public void addWeeks(int weeks) {
-        //Moves this Date object forward in time by the given number of seven day weeks. Make sure to adjust date fields appropriately.
+        addDays(weeks * 7);
     }
 
-    public void monthOfYear (int calMonth) {
+    private void setMonthName (int calMonth) {
 
         String months [] = {"January", "February", "March", "April", "May", "June",
                 "July", "August", "September", "October", "November", "December"};
+
+<<<<<<<
+
+=======
+        this.monthName = months [calMonth - 1];
+
+>>>>>>>
+    }
+
+    private void setDaysInMonth(int month) {
+
+        int numOfDays = daysInMonth(month);
+
+        if (isLeapYear(this.year) && month == 2) {
+            numOfDays += 1;
+        }
+
+        this.daysInMonth = numOfDays;
 
     }
 
     // Utilities =================================================
 
-    public static int daysTo(Date date1, Date date2) {
-        //Returns the number of days that this Date object must be adjusted to make it equal to the given other Date.
-        return 2;
+    private boolean validateData(int year, int month, int day) {
+
+        int maxDays = 0;
+
+        if (isLeapYear(year) && month == 2) {
+            maxDays = 29;
+        } else if (!isLeapYear(year) && month == 2) {
+            maxDays = 28;
+        } else if (month == 2 || month == 4 || month == 6 || month == 9 ||month == 11) {
+            maxDays = 30;
+        } else {
+            maxDays = 31;
+        }
+
+        boolean yearValid = year >= 1582 && year <= 3000;
+        boolean monthValid = month > 0 && month <= 12;
+        boolean dayValid = day >= 0 && day <= maxDays;
+
+        return yearValid && monthValid && dayValid;
+
     }
 
-    public int daysTo(Date other) {
-        return 2;
+    private void setupDateData() {
+
+        this.setMonthName(this.month);
+        this.setDaysInMonth(this.month);
+
     }
 
-    public boolean isLeapYear() {
+    private int daysInMonth(int month) {
 
-        boolean leap = false;
+        int days[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
+        return days[month - 1];
+    }
+
+    private int daysInYear(int year) {
+
+        if (isLeapYear(year)) {
+            return 366;
+        } else {
+            return 365;
+        }
+    }
+
+    private boolean isLeapYear(int year) {
+
+        boolean leap;
         // if the year is divided by 4
         if (year % 4 == 0) {
-
             // if the year is century
             if (year % 100 == 0) {
-
                 // if year is divided by 400
                 // then it is a leap year
                 if (year % 400 == 0) {
@@ -123,13 +283,16 @@ public class Date {
         } else {
             leap = false;
         }
-
-        if (leap) {
-            System.out.println(year + " is a leap year.");
-        } else {
-            System.out.println(year + " is not a leap year.");
-        }
         return leap;
+    }
+
+    public static int daysTo(Date date1, Date date2) {
+        //Returns the number of days that this Date object must be adjusted to make it equal to the given other Date.
+        return 2;
+    }
+
+    public int daysTo(Date other) {
+        return 1;
     }
 
     public String toString() {
@@ -137,7 +300,18 @@ public class Date {
     }
 
     public String longDate() {
-        return "The date in string ex: January 1, 1970";
+        return  this.monthName + " " + this.day + ", " + this.year;
+    }
+
+    private int countDays(int month) {
+        int countDays = 0;
+
+        for (int i = 1; i <= month; i++) {
+            countDays += daysInMonth(i);
+        }
+
+        return countDays - this.day;
+
     }
 
 }
