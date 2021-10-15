@@ -26,10 +26,10 @@ public class DayGrid {
 //            showGrid(i, 2020);
 //        }
 
-        showGrid(2, 2000);
+        showGrid(10, 1582);
 
         //test run for overloaded method to print a panel
-        showGrid(graphics,2, 2000);
+        showGrid(graphics,10, 1582);
 
     }
 
